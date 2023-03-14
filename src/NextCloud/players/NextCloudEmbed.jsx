@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 /**
  * NextCloudEmbed video block.
  * @module components/manage/Blocks/Video/NextCloudEmbed
@@ -22,7 +23,9 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
             : `${flattenToAppURL(data.url)}/@@download/file`
           : `${data.url}/download`
       }
-      controls
+      controls={!data.use_video_as_background}
+      autoPlay={data.use_video_as_background}
+      loop={data.use_video_as_background}
       poster={embedSettings.placeholder}
       type="video/mp4"
     />
