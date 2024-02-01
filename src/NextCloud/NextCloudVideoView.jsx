@@ -27,7 +27,7 @@ const View = (props) => {
         className,
       )}
     >
-      <Body data={data} />
+      <Body {...props} />
     </div>
   );
 };

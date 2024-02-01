@@ -185,7 +185,7 @@ class Edit extends Component {
         )}
       >
         {getFieldURL(data.url) && this.state.valid ? (
-          <Body data={data} isEditMode={true} />
+          <Body isEditMode={true} {...this.props} />
         ) : (
           <center>
             <img src={videoBlockSVG} alt="" />
