@@ -11,68 +11,188 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
+#. Default: "A short hint that describes the expected value within this block"
+#: NextCloud/LayoutSchema
+msgid "A short hint that describes the expected value within this block"
+msgstr ""
+
+#. Default: "Alignment"
 #: NextCloud/schema
-# defaultMessage: Alignment
 msgid "Alignment"
 msgstr ""
 
+#. Default: "Allow only the following blocks types"
+#: NextCloud/LayoutSchema
+msgid "Allow only the following blocks types"
+msgstr ""
+
+#. Default: "Default"
+#: NextCloud/LayoutSchema
+msgid "Default"
+msgstr ""
+
+#. Default: "Detailed expected value within this block"
+#: NextCloud/LayoutSchema
+msgid "Detailed expected value within this block"
+msgstr ""
+
+#. Default: "Disable creation of new blocks after this block"
+#: NextCloud/LayoutSchema
+msgid "Disable creation of new blocks after this block"
+msgstr ""
+
+#. Default: "Disable drag & drop on this block"
+#: NextCloud/LayoutSchema
+msgid "Disable drag & drop on this block"
+msgstr ""
+
+#. Default: "Disable editing on NextCloudVideo block settings"
+#: NextCloud/LayoutSchema
+msgid "Disable editing on NextCloudVideo block settings"
+msgstr ""
+
+#. Default: "Disable editing on NextCloudVideo titles"
+#: NextCloud/LayoutSchema
+msgid "Disable editing on NextCloudVideo titles"
+msgstr ""
+
+#. Default: "Disable editing on this block"
+#: NextCloud/LayoutSchema
+msgid "Disable editing on this block"
+msgstr ""
+
+#. Default: "Disable inner buttons"
+#: NextCloud/LayoutSchema
+msgid "Disable inner buttons"
+msgstr ""
+
+#. Default: "Disable new blocks"
+#: NextCloud/LayoutSchema
+msgid "Disable new blocks"
+msgstr ""
+
+#. Default: "Don't allow deletion of this block"
+#: NextCloud/LayoutSchema
+msgid "Don't allow deletion of this block"
+msgstr ""
+
+#. Default: "File"
 #: NextCloud/schema
-# defaultMessage: File
 msgid "File"
 msgstr ""
 
+#. Default: "Fixed layout"
+#: NextCloud/LayoutSchema
+msgid "Fixed layout"
+msgstr ""
+
+#. Default: "Fixed layout, New panes (tabs) created by Editor within this block will be ignored"
+#: NextCloud/LayoutSchema
+msgid "Fixed layout, New panes (tabs) created by Editor within this block will be ignored"
+msgstr ""
+
+#. Default: "Fixed position"
+#: NextCloud/LayoutSchema
+msgid "Fixed position"
+msgstr ""
+
+#. Default: "Helper text"
+#: NextCloud/LayoutSchema
+msgid "Helper text"
+msgstr ""
+
+#. Default: "Hide all block related buttons within this block"
+#: NextCloud/LayoutSchema
+msgid "Hide all block related buttons within this block"
+msgstr ""
+
+#. Default: "Instructions"
+#: NextCloud/LayoutSchema
+msgid "Instructions"
+msgstr ""
+
+#. Default: "Language"
 #: NextCloud/schema
-# defaultMessage: Language
 msgid "Language"
 msgstr ""
 
+#. Default: "NextCloudVideo"
+#: index
+msgid "NextCloudVideo"
+msgstr ""
+
+#. Default: "NextCloudVideo block settings"
+#: NextCloud/LayoutSchema
+msgid "NextCloudVideo block settings"
+msgstr ""
+
+#. Default: "No Video selected"
 #: NextCloud/VideoSidebar
-# defaultMessage: No Video selected
 msgid "No Video selected"
 msgstr ""
 
+#. Default: "Please enter a valid video URL, starting with:"
 #: NextCloud/NextCloudVideoEdit
-# defaultMessage: Please enter a valid video URL, starting with:
 msgid "Please enter a valid video URL, starting with: "
 msgstr ""
 
+#. Default: "Preview Image URL"
 #: NextCloud/schema
-# defaultMessage: Preview Image URL
 msgid "Preview Image URL"
 msgstr ""
 
+#. Default: "Read-only"
+#: NextCloud/LayoutSchema
+msgid "Read-only"
+msgstr ""
+
+#. Default: "Read-only settings"
+#: NextCloud/LayoutSchema
+msgid "Read-only settings"
+msgstr ""
+
+#. Default: "Read-only titles"
+#: NextCloud/LayoutSchema
+msgid "Read-only titles"
+msgstr ""
+
+#. Default: "Required"
+#: NextCloud/LayoutSchema
+msgid "Required"
+msgstr ""
+
+#. Default: "Specify a NextCloud video or playlist url"
 #: NextCloud/NextCloudVideoEdit
-# defaultMessage: Specify a NextCloud video or playlist url
 msgid "Specify a NextCloud video or playlist url"
 msgstr ""
 
+#. Default: "Title"
 #: NextCloud/schema
-# defaultMessage: Title
 msgid "Title"
 msgstr ""
 
+#. Default: "Video"
 #: NextCloud/schema
 #: NextCloud/VideoSidebar
-# defaultMessage: Video
 msgid "Video"
 msgstr ""
 
+#. Default: "Video Autoplay"
 #: NextCloud/schema
-# defaultMessage: Video Autoplay
 msgid "Video Autoplay"
 msgstr ""
 
+#. Default: "Video Loop"
 #: NextCloud/schema
-# defaultMessage: Video Loop
 msgid "Video Loop"
 msgstr ""
 
+#. Default: "Video URL"
 #: NextCloud/schema
-# defaultMessage: Video URL
 msgid "Video URL"
 msgstr ""
 
+#. Default: "Video URL (NextCloud)"
 #: NextCloud/NextCloudVideoEdit
-# defaultMessage: Video URL (NextCloud)
 msgid "Video URL (NextCloud)"
 msgstr ""
