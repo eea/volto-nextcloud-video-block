@@ -1,5 +1,7 @@
 import NextCloudEmbed from './NextCloudEmbed';
 
-export default {
+const players = {
   nextCloud: NextCloudEmbed,
 };
+
+export default players;

@@ -1,5 +1,5 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render, screen } from '@testing-library/react';
 import Body from './Body';
 import { isInternalURL } from '@plone/volto/helpers';
 import configureStore from 'redux-mock-store';
@@ -7,6 +7,7 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-intl-redux';
 import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
+import '@testing-library/jest-dom/extend-expect';
 
 jest.mock('@eeacms/volto-nextcloud-video-block/helpers', () => ({
   getFieldURL: jest.fn(),
@@ -24,51 +25,31 @@ jest.mock('./players', () => ({
   nextCloud: jest.fn(() => <div>NextCloud Player</div>),
 }));
 
-describe('Body', () => {
-  it('renders correctly', () => {
-    const props = {
-      data: {
-        url: 'nextCloud',
-        align: 'full',
-        preview_image: '/path/to/image',
-      },
-    };
-    const block = '123';
-    const store = mockStore({
-      intl: {
-        locale: 'en',
-        messages: {},
-      },
-      router: {
-        location: {
-          pathname: '/',
-        },
-      },
-      content: {
-        subrequests: {
-          [block]: {
-            data: {
-              image: {
-                '@id': 'some/url',
-              },
-            },
-          },
-        },
-      },
-    });
-
-    const component = renderer.create(
-      <Provider store={store}>
-        <Router history={history}>
-          <Body {...props} />
-        </Router>
-      </Provider>,
-    );
-    const json = component.toJSON();
-    expect(json).toMatchSnapshot();
+describe('Body component', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it('renders the correct player based on the url', () => {
+  it('renders the video component with the appropriate player based on URL', () => {
+    const data = {
+      url: 'https://example.com/nextCloud/video.mp4',
+      title: 'Sample Video',
+      align: 'center',
+      preview_image: 'https://example.com/preview.jpg',
+    };
+    getFieldURL.mockReturnValueOnce('https://example.com/nextCloud/video.mp4');
+    getFieldURL.mockReturnValueOnce('https://example.com/preview.jpg');
+    isInternalURL.mockReturnValueOnce(false);
+
+    render(<Body data={data} />);
+
+    expect(screen.getByRole('figure')).toBeInTheDocument();
+    expect(screen.getByText('Sample Video')).toBeInTheDocument();
+    expect(screen.getByRole('figure')).toHaveClass('video-inner');
+    expect(screen.getByRole('figure')).not.toHaveClass('full-width');
+  });
+
+  it('renders the video component with full-width class when align is set to "full"', () => {
     const block = '123';
     const store = mockStore({
       intl: {
@@ -92,29 +73,23 @@ describe('Body', () => {
         },
       },
     });
-    const props = {
-      data: {
-        url: 'nextCloud',
-        align: 'full',
-        preview_image: '/path/to/image',
-      },
+    const data = {
+      url: 'https://example.com/nextCloud/video.mp4',
+      title: 'Sample Video',
+      align: 'full',
+      preview_image: 'https://example.com/preview.jpg',
       className: {},
     };
+    getFieldURL.mockReturnValueOnce('https://example.com/nextCloud/video.mp4');
+    getFieldURL.mockReturnValueOnce('https://example.com/preview.jpg');
+    isInternalURL.mockReturnValueOnce(false);
 
-    isInternalURL.mockReturnValue(true);
-    getFieldURL.mockReturnValue('/path/to/video');
+    render(<Body data={data} />);
 
-    const component = renderer.create(
-      <Provider store={store}>
-        <Router history={history}>
-          <Body {...props} />
-        </Router>
-      </Provider>,
-    );
-    expect(component.toJSON().props.className).toContain('video-inner');
+    expect(screen.getByRole('figure')).toHaveClass('full-width');
   });
 
-  it('renders the correct player based on the url', () => {
+  it('does not render the video component when URL is not provided', () => {
     const block = '123';
     const store = mockStore({
       intl: {
@@ -138,16 +113,13 @@ describe('Body', () => {
         },
       },
     });
-    const props = {
-      data: {
-        url: 'nextCloud',
-        align: 'full',
-        preview_image: '/path/to/image',
-      },
+    const data = {
+      title: 'Sample Video',
+      align: 'center',
+      preview_image: 'https://example.com/preview.jpg',
     };
-
-    isInternalURL.mockReturnValue(false);
-    getFieldURL.mockReturnValue('nextCloud');
+    getFieldURL.mockReturnValueOnce(undefined);
+    isInternalURL.mockReturnValueOnce(false);
 
     const component = renderer.create(
       <Provider store={store}>
@@ -157,6 +129,6 @@ describe('Body', () => {
       </Provider>,
     );
 
-    expect(component.toJSON().props.className).toContain('video-inner');
+    expect(screen.queryByRole('figure')).not.toBeInTheDocument();
   });
 });

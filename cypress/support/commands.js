@@ -124,7 +124,7 @@ Cypress.Commands.add(
         })
         .then(() => console.log(`${contentType} created`));
     }
-  }
+  },
 );
 
 // --- Add DX Content-Type ----------------------------------------------------------
@@ -217,7 +217,7 @@ Cypress.Commands.add('removeSlateJSONField', (type, name) => {
       body: {},
     })
     .then(() =>
-      console.log(`${name} SlateJSONField field removed from ${type}`)
+      console.log(`${name} SlateJSONField field removed from ${type}`),
     );
 });
 
@@ -251,7 +251,7 @@ Cypress.Commands.add('typeInSlate', { prevSubject: true }, (subject, text) => {
           new InputEvent('beforeinput', {
             inputType: 'insertText',
             data: text,
-          })
+          }),
         );
         return subject;
       })
@@ -267,7 +267,7 @@ Cypress.Commands.add('lineBreakInSlate', { prevSubject: true }, (subject) => {
       .wrap(subject)
       .then((subject) => {
         subject[0].dispatchEvent(
-          new InputEvent('beforeinput', { inputType: 'insertLineBreak' })
+          new InputEvent('beforeinput', { inputType: 'insertLineBreak' }),
         );
         return subject;
       })
@@ -315,7 +315,7 @@ Cypress.Commands.add(
         include_children: include_children,
       },
     });
-  }
+  },
 );
 
 // --- waitForResourceToLoad ----------------------------------------------------------
@@ -375,7 +375,7 @@ Cypress.Commands.add(
         setBaseAndExtent(anchorNode, anchorOffset, focusNode, focusOffset);
       }
     });
-  }
+  },
 );
 
 Cypress.Commands.add('getSlate', ({ createNewSlate = true } = {}) => {
@@ -390,7 +390,7 @@ Cypress.Commands.add('getSlate', ({ createNewSlate = true } = {}) => {
         cy.get('.block.inner').last().type('{moveToEnd}{enter}');
       }
       slate = cy.get(SLATE_SELECTOR, { timeout: 10000 }).last();
-    }
+    },
   );
   return slate;
 });
@@ -447,10 +447,6 @@ Cypress.Commands.add('toolbarSave', () => {
 
   // Save
   cy.get('#toolbar-save').click();
-  cy.waitForResourceToLoad('@navigation');
-  cy.waitForResourceToLoad('@breadcrumbs');
-  cy.waitForResourceToLoad('@actions');
-  cy.waitForResourceToLoad('@types');
   cy.waitForResourceToLoad('my-page');
   cy.url().should('eq', Cypress.config().baseUrl + '/cypress/my-page');
 });
@@ -470,7 +466,7 @@ Cypress.Commands.add(
     });
     // Depending on what you're testing, you may need to chain a `.click()` here to ensure
     // further commands are picked up by whatever you're testing (this was required for Slate, for example).
-  }
+  },
 );
 
 Cypress.Commands.add(
@@ -478,7 +474,7 @@ Cypress.Commands.add(
   { prevSubject: true },
   (subject, query) => {
     cy.wrap(subject).setCursor(query, true);
-  }
+  },
 );
 
 Cypress.Commands.add(
@@ -486,7 +482,7 @@ Cypress.Commands.add(
   { prevSubject: true },
   (subject, query) => {
     cy.wrap(subject).setCursor(query);
-  }
+  },
 );
 
 // Helper functions
@@ -532,5 +528,5 @@ Cypress.Commands.add(
         failAction();
       }
     });
-  }
+  },
 );

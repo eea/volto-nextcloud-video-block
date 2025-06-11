@@ -74,10 +74,6 @@ describe('Blocks Tests', () => {
 
     //Go to test page
     cy.visit('/cypress/my-page');
-    cy.waitForResourceToLoad('@navigation');
-    cy.waitForResourceToLoad('@breadcrumbs');
-    cy.waitForResourceToLoad('@actions');
-    cy.waitForResourceToLoad('@types');
     cy.waitForResourceToLoad('my-page');
     cy.navigate('/cypress/my-page/edit');
     cy.getSlate().click();
@@ -102,7 +98,7 @@ describe('Blocks Tests', () => {
     cy.get('[aria-label="Add Subtitles"]').click();
     cy.get('#field-language-0-subtitles-0').type('{enter}');
     cy.get('.file-picker-toolbar button').first().click();
-    cy.get('.object-listing li').first().click();
+    cy.get('.object-listing li').first().dblclick();
     cy.get('.file-picker-toolbar button').next().next().click();
 
     // Save
