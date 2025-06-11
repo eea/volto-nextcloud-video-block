@@ -1,23 +1,19 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Body from './Body';
-import { isInternalURL } from '@plone/volto/helpers';
+import { isInternalURL, getFieldURL } from '@plone/volto/helpers';
 import configureStore from 'redux-mock-store';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-intl-redux';
-import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
 import '@testing-library/jest-dom/extend-expect';
 
-jest.mock('@eeacms/volto-nextcloud-video-block/helpers', () => ({
-  getFieldURL: jest.fn(),
-  getImageScaleParams: jest.fn((image) => image),
-}));
 const mockStore = configureStore();
 let history = createMemoryHistory();
 jest.mock('@plone/volto/helpers', () => ({
   isInternalURL: jest.fn(),
-  flattenToAppURL: jest.fn(),
+  flattenToAppURL: jest.fn((url) => url),
+  getFieldURL: jest.fn(),
   withBlockExtensions: jest.fn((Component) => Component),
 }));
 
@@ -31,6 +27,44 @@ describe('Body component', () => {
   });
 
   it('renders the video component with the appropriate player based on URL', () => {
+    const block = '123';
+    const store = mockStore({
+      intl: {
+        locale: 'en',
+        messages: {},
+      },
+      router: {
+        location: {
+          pathname: '/',
+        },
+      },
+      content: {
+        subrequests: {
+          [block]: {
+            data: {
+              '@id': 'http://localhost:3000/some-image',
+              image_field: 'image',
+              image_scales: {
+                image: [
+                  {
+                    download: '@@images/image.png',
+                    width: 400,
+                    height: 400,
+                    scales: {
+                      preview: {
+                        download: '@@images/image-400.png',
+                        width: 400,
+                        height: 400,
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    });
     const data = {
       url: 'https://example.com/nextCloud/video.mp4',
       title: 'Sample Video',
@@ -38,10 +72,16 @@ describe('Body component', () => {
       preview_image: 'https://example.com/preview.jpg',
     };
     getFieldURL.mockReturnValueOnce('https://example.com/nextCloud/video.mp4');
-    getFieldURL.mockReturnValueOnce('https://example.com/preview.jpg');
     isInternalURL.mockReturnValueOnce(false);
+    isInternalURL.mockReturnValueOnce(true);
 
-    render(<Body data={data} />);
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <Body data={data} block={block} />
+        </Router>
+      </Provider>,
+    );
 
     expect(screen.getByRole('figure')).toBeInTheDocument();
     expect(screen.getByText('Sample Video')).toBeInTheDocument();
@@ -65,8 +105,23 @@ describe('Body component', () => {
         subrequests: {
           [block]: {
             data: {
-              image: {
-                '@id': 'some/url',
+              '@id': 'http://localhost:3000/some-image',
+              image_field: 'image',
+              image_scales: {
+                image: [
+                  {
+                    download: '@@images/image.png',
+                    width: 400,
+                    height: 400,
+                    scales: {
+                      preview: {
+                        download: '@@images/image-400.png',
+                        width: 400,
+                        height: 400,
+                      },
+                    },
+                  },
+                ],
               },
             },
           },
@@ -81,10 +136,16 @@ describe('Body component', () => {
       className: {},
     };
     getFieldURL.mockReturnValueOnce('https://example.com/nextCloud/video.mp4');
-    getFieldURL.mockReturnValueOnce('https://example.com/preview.jpg');
     isInternalURL.mockReturnValueOnce(false);
+    isInternalURL.mockReturnValueOnce(true);
 
-    render(<Body data={data} />);
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <Body data={data} block={block} />
+        </Router>
+      </Provider>,
+    );
 
     expect(screen.getByRole('figure')).toHaveClass('full-width');
   });
@@ -105,8 +166,23 @@ describe('Body component', () => {
         subrequests: {
           [block]: {
             data: {
-              image: {
-                '@id': 'some/url',
+              '@id': 'http://localhost:3000/some-image',
+              image_field: 'image',
+              image_scales: {
+                image: [
+                  {
+                    download: '@@images/image.png',
+                    width: 400,
+                    height: 400,
+                    scales: {
+                      preview: {
+                        download: '@@images/image-400.png',
+                        width: 400,
+                        height: 400,
+                      },
+                    },
+                  },
+                ],
               },
             },
           },
@@ -117,14 +193,17 @@ describe('Body component', () => {
       title: 'Sample Video',
       align: 'center',
       preview_image: 'https://example.com/preview.jpg',
+      url: undefined, // Explicitly set url to undefined
     };
-    getFieldURL.mockReturnValueOnce(undefined);
-    isInternalURL.mockReturnValueOnce(false);
 
-    const component = renderer.create(
+    // Mock getFieldURL to return undefined when called with undefined
+    getFieldURL.mockReturnValueOnce(undefined);
+    isInternalURL.mockReturnValueOnce(true); // for getImageScaleParams
+
+    render(
       <Provider store={store}>
         <Router history={history}>
-          <Body {...props} />
+          <Body data={data} block={block} />
         </Router>
       </Provider>,
     );

@@ -4,7 +4,7 @@ import { BlockDataForm, Icon } from '@plone/volto/components';
 import { Segment } from 'semantic-ui-react';
 import { defineMessages, useIntl } from 'react-intl';
 import videoSVG from '@plone/volto/icons/videocamera.svg';
-import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
+import { getFieldURL } from '@plone/volto/helpers';
 
 const messages = defineMessages({
   Video: {

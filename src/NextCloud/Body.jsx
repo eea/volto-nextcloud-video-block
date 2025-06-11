@@ -6,13 +6,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { useSelector, useDispatch } from 'react-redux';
-import { getContent } from '@plone/volto/actions';
-import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
-import {
-  getFieldURL,
-  getImageScaleParams,
-} from '@eeacms/volto-nextcloud-video-block/helpers';
+import { useSelector } from 'react-redux';
+import { getFieldURL } from '@plone/volto/helpers';
+import { getImageScaleParams } from '@eeacms/volto-object-widget/helpers';
 import players from './players';
 
 /**
@@ -22,19 +18,12 @@ import players from './players';
  */
 const Body = (props) => {
   const { data, block } = props;
-  const dispatch = useDispatch();
   const image = useSelector(
     (state) => state.content.subrequests?.[block]?.data,
   );
 
-  React.useEffect(() => {
-    if (isInternalURL(data.preview_image)) {
-      dispatch(getContent(flattenToAppURL(data.preview_image), null, block));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data.preview_image]);
+  const previewImage = getImageScaleParams(image, 'large');
 
-  const previewImage = getImageScaleParams(image, 'preview');
   const url = getFieldURL(data.url);
   let placeholder = previewImage?.download ?? data.preview_image;
 

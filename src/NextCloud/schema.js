@@ -93,7 +93,7 @@ export const VideoBlockSchema = (props) => {
       },
       preview_image: {
         title: props.intl.formatMessage(messages.Preview_image),
-        widget: 'url',
+        widget: 'attachedimage',
       },
       align: {
         title: props.intl.formatMessage(messages.Alignment),

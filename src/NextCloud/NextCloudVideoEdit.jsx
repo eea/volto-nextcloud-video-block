@@ -13,8 +13,11 @@ import { Button, Input, Message } from 'semantic-ui-react';
 
 import config from '@plone/volto/registry';
 import { Icon, SidebarPortal } from '@plone/volto/components';
-import { withBlockExtensions, isInternalURL } from '@plone/volto/helpers';
-import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
+import {
+  withBlockExtensions,
+  isInternalURL,
+  getFieldURL,
+} from '@plone/volto/helpers';
 import VideoSidebar from './VideoSidebar';
 import Body from './Body';
 
