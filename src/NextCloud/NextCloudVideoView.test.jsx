@@ -10,10 +10,11 @@ import View from './NextCloudVideoView';
 jest.mock('@plone/volto/helpers', () => ({
   withBlockExtensions: jest.fn((Component) => Component),
   isInternalURL: jest.fn((url) => true),
+  getFieldURL: jest.fn(),
   flattenToAppURL: jest.fn((url) => url),
 }));
 const mockStore = configureStore();
-let history = createMemoryHistory();
+const history = createMemoryHistory();
 
 describe('View', () => {
   it('renders the video block', () => {
