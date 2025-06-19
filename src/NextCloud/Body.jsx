@@ -6,8 +6,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { isInternalURL } from '@plone/volto/helpers';
-import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
+import { useSelector } from 'react-redux';
+import { getFieldURL } from '@plone/volto/helpers';
+import { getImageScaleParams } from '@eeacms/volto-object-widget/helpers';
 import players from './players';
 
 /**
@@ -15,16 +16,18 @@ import players from './players';
  * @class Body
  * @extends Component
  */
-const Body = ({ data }) => {
-  const previewImage = getFieldURL(data.preview_image);
-  const url = getFieldURL(data.url);
-  let placeholder = previewImage
-    ? isInternalURL(previewImage)
-      ? `${previewImage}/@@images/image`
-      : previewImage
-    : null;
+const Body = (props) => {
+  const { data, block } = props;
+  const image = useSelector(
+    (state) => state.content.subrequests?.[block]?.data,
+  );
 
-  const ref = React.createRef();
+  const previewImage = getImageScaleParams(image, 'large');
+
+  const url = getFieldURL(data.url);
+  let placeholder = previewImage?.download ?? data.preview_image;
+
+  const ref = React.useRef();
   const onKeyDown = (e) => {
     if (e.nativeEvent.keyCode === 13) {
       ref.current.handleClick();

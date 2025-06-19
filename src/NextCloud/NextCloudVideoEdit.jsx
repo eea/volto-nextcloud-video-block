@@ -13,8 +13,11 @@ import { Button, Input, Message } from 'semantic-ui-react';
 
 import config from '@plone/volto/registry';
 import { Icon, SidebarPortal } from '@plone/volto/components';
-import { withBlockExtensions, isInternalURL } from '@plone/volto/helpers';
-import { getFieldURL } from '@eeacms/volto-nextcloud-video-block/helpers';
+import {
+  withBlockExtensions,
+  isInternalURL,
+  getFieldURL,
+} from '@plone/volto/helpers';
 import VideoSidebar from './VideoSidebar';
 import Body from './Body';
 
@@ -145,7 +148,7 @@ class Edit extends Component {
   /**
    * Keydown handler on Variant Menu Form
    * This is required since the ENTER key is already mapped to a onKeyDown
-   * event and needs to be overriden with a child onKeyDown.
+   * event and needs to be overridden with a child onKeyDown.
    * @method onKeyDownVariantMenuForm
    * @param {Object} e Event object
    * @returns {undefined}
@@ -185,7 +188,7 @@ class Edit extends Component {
         )}
       >
         {getFieldURL(data.url) && this.state.valid ? (
-          <Body data={data} isEditMode={true} />
+          <Body isEditMode={true} {...this.props} />
         ) : (
           <center>
             <img src={videoBlockSVG} alt="" />
