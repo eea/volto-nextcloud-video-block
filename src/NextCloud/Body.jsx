@@ -27,7 +27,7 @@ const Body = (props) => {
   const url = getFieldURL(data.url);
   let placeholder = previewImage?.download ?? data.preview_image;
 
-  const ref = React.createRef();
+  const ref = React.useRef();
   const onKeyDown = (e) => {
     if (e.nativeEvent.keyCode === 13) {
       ref.current.handleClick();
