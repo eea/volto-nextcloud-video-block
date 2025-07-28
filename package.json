@@ -20,7 +20,7 @@
     "url": "git@github.com:eea/volto-nextcloud-video-block.git"
   },
   "dependencies": {
-    "@eeacms/volto-object-widget": "eea/volto-object-widget#develop"
+    "@eeacms/volto-object-widget": "*"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.10.0",
