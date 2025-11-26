@@ -22,9 +22,17 @@ const messages = defineMessages({
     id: 'Alignment',
     defaultMessage: 'Alignment',
   },
+  controls: {
+    id: 'Video Controls',
+    defaultMessage: 'Video Controls',
+  },
   autoPlay: {
     id: 'Video Autoplay',
     defaultMessage: 'Video Autoplay',
+  },
+  muted: {
+    id: 'Video Muted',
+    defaultMessage: 'Video Muted',
   },
   loop: {
     id: 'Video Loop',
@@ -76,6 +84,8 @@ export const VideoBlockSchema = (props) => {
           'url',
           'preview_image',
           'align',
+          'controls',
+          'muted',
           'autoPlay',
           'loop',
           'subtitles',
@@ -98,6 +108,14 @@ export const VideoBlockSchema = (props) => {
       align: {
         title: props.intl.formatMessage(messages.Alignment),
         widget: 'align',
+      },
+      controls: {
+        title: props.intl.formatMessage(messages.controls),
+        type: 'boolean',
+      },
+      muted: {
+        title: props.intl.formatMessage(messages.muted),
+        type: 'boolean',
       },
       autoPlay: {
         title: props.intl.formatMessage(messages.autoPlay),
