@@ -13,6 +13,10 @@ import config from '@plone/volto/registry';
  * @extends Component
  */
 const NextCloudEmbed = ({ data, embedSettings }) => {
+  // Ticket:293889
+  if (data.autoPlay && data.controls === undefined) {
+    data.controls = true;
+  }
   return (
     // eslint-disable-next-line jsx-a11y/media-has-caption
     <video
@@ -23,9 +27,9 @@ const NextCloudEmbed = ({ data, embedSettings }) => {
             : `${flattenToAppURL(data.url)}/@@download/file`
           : `${data.url}/download`
       }
-      controls={!data.autoPlay}
+      controls={data.controls}
       autoPlay={data.autoPlay}
-      muted={data.autoPlay}
+      muted={data.muted}
       loop={data.loop}
       poster={embedSettings.placeholder}
       type="video/mp4"
