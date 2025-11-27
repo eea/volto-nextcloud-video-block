@@ -39,6 +39,8 @@ const Body = (props) => {
     icon: 'play',
     defaultActive: false,
     autoplay: false,
+    controls: false,
+    muted: false,
     aspectRatio: '16:9',
     tabIndex: 0,
     onKeyPress: onKeyDown,
