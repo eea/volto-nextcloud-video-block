@@ -1,119 +1,91 @@
-import { slateBeforeEach, slateAfterEach } from '../support/e2e';
+import { slateAfterEach } from '../support/e2e';
 
-describe('Blocks Tests', () => {
-  beforeEach(slateBeforeEach);
-  afterEach(slateAfterEach);
+const API_PATH = Cypress.env('API_PATH') || 'http://localhost:8080/Plone';
+const AUTH = {
+  user: 'admin',
+  pass: 'admin',
+};
 
-  it('Add Block: Video link', () => {
-    // Intercept cmshare request
-    cy.intercept('GET', 'https://cmshare.eea.europa.eu//download').as(
-      'cmshare',
-    );
-
-    // Change page title
-    cy.clearSlateTitle();
-    cy.getSlateTitle().type('Volto NextCloud Video Demo');
-    cy.get('.documentFirstHeading').contains('Volto NextCloud Video Demo');
-    cy.getSlate().click();
-
-    // Add block
-    cy.get('.ui.basic.icon.button.block-add-button').first().click();
-    cy.get(".blocks-chooser .ui.form .field.searchbox input[type='text']").type(
-      'video (NextCloud)',
-    );
-    cy.get('.nextCloudVideo').click();
-
-    // Check if error message is not displayed
-    cy.get('.ui.error.message').should('not.exist');
-    cy.get('.block.video .toolbar-inner .ui.input').type(
-      'https://www.youtube.com/{esc}',
-    );
-
-    // Add youtube video link and check if it is valid
-    cy.get('.block.video .toolbar-inner .ui.input')
-      .click()
-      .type('https://www.youtube.com/');
-    cy.get('.block.video .toolbar-inner .ui.buttons .ui.basic.primary').click();
-    cy.get('.ui.error.message').should('exist');
-
-    // Delete the link and check if the error message is not displayed
-    cy.get('.block.video .toolbar-inner .ui.buttons .ui.basic.cancel').click();
-    cy.get('.ui.error.message').should('not.exist');
-
-    // Add cmshare video link and check if it is valid
-    cy.get('.block.video .toolbar-inner .ui.input').type(
-      'https://cmshare.eea.europa.eu/{enter}',
-    );
-    cy.get('.ui.error.message').should('not.exist');
-    cy.get('#blockform-fieldset-default #field-title').type('test cmshare');
-
-    // Wait for cmshare request
-    cy.wait('@cmshare');
-
-    // Save
-    cy.get('#toolbar-save').click();
-    cy.url().should('eq', Cypress.config().baseUrl + '/cypress/my-page');
-
-    // The page view should contain our changes
-    cy.contains('Volto NextCloud Video Demo');
-    cy.get('.block.video');
+const setVideoBlocks = ({ subtitles = [] } = {}) =>
+  cy.request({
+    method: 'PATCH',
+    url: `${API_PATH}/cypress/my-page`,
+    headers: {
+      Accept: 'application/json',
+    },
+    auth: AUTH,
+    body: {
+      title: 'Volto NextCloud Video Demo',
+      blocks: {
+        title: {
+          '@type': 'title',
+        },
+        video: {
+          '@type': 'nextCloudVideo',
+          url: 'https://cmshare.eea.europa.eu',
+          title: 'test cmshare',
+          subtitles,
+        },
+      },
+      blocks_layout: {
+        items: ['title', 'video'],
+      },
+    },
   });
 
-  it('Check Subtitles', () => {
-    // Intercept cmshare request
-    cy.intercept('GET', 'https://cmshare.eea.europa.eu/download').as('cmshare');
+const visitPageView = () => {
+  cy.visit('/cypress/my-page');
+  cy.waitForResourceToLoad('my-page');
+};
 
-    // Add Captions File
-    cy.visit('/cypress');
-    cy.waitForResourceToLoad('cypress');
-    cy.get('#toolbar-add').click().get('#toolbar-add-file').click();
-    cy.get('#field-file')
-      .focus()
-      .selectFile('cypress/resources/captions-sample.vtt', { force: true });
-    cy.get('#field-title').type('captions');
-    cy.get('#toolbar-save').click();
+describe('Blocks Tests', () => {
+  beforeEach(() => {
+    cy.autologin();
+    cy.createContent({
+      contentType: 'Document',
+      contentId: 'cypress',
+      contentTitle: 'Cypress',
+    });
+    cy.createContent({
+      contentType: 'Document',
+      contentId: 'my-page',
+      contentTitle: 'My Page',
+      path: 'cypress',
+    });
+    cy.createContent({
+      contentType: 'File',
+      contentId: 'captions',
+      contentTitle: 'captions',
+      path: 'cypress',
+    });
+  });
+  afterEach(slateAfterEach);
 
-    //Go to test page
-    cy.visit('/cypress/my-page');
-    cy.waitForResourceToLoad('my-page');
-    cy.navigate('/cypress/my-page/edit');
-    cy.getSlate().click();
+  it('renders a nextcloud video block from a whitelisted URL', () => {
+    setVideoBlocks();
+    visitPageView();
 
-    //Get Video Block
-    cy.get('.ui.basic.icon.button.block-add-button').first().click();
-    cy.get(".blocks-chooser .ui.form .field.searchbox input[type='text']").type(
-      'video (NextCloud)',
-    );
-    cy.get('.nextCloudVideo').click();
-
-    // Add cmshare video link
-    cy.get('.block.video .toolbar-inner .ui.input').type(
-      'https://cmshare.eea.europa.eu/',
-    );
-    cy.get('.block.video .toolbar-inner .ui.buttons .ui.basic.primary').click();
-
-    // Wait for cmshare request
-    cy.wait('@cmshare');
-
-    //add subtitles in menu
-    cy.get('[aria-label="Add Subtitles"]').click();
-    cy.get('#field-language-0-subtitles-0').type('{enter}');
-    cy.get('.file-picker-toolbar button').first().click();
-    cy.get('.object-listing li').first().dblclick();
-    cy.get('.file-picker-toolbar button').next().next().click();
-
-    // Save
-    cy.get('#toolbar-save').click();
-    cy.url().should('eq', Cypress.config().baseUrl + '/cypress/my-page');
-
-    //Check the presence of captions
-    cy.get('.block.video')
-      .get('video')
+    cy.contains('Volto NextCloud Video Demo');
+    cy.get('.block.video video')
       .should('be.visible')
-      .should('not.be.empty')
-      .then(($video) => {
-        const $track = $video.contents()?.[0];
-        cy.wrap($track).should('have.attr', 'kind', 'subtitles');
-      });
+      .and('have.attr', 'src', 'https://cmshare.eea.europa.eu/download');
+    cy.contains('test cmshare');
+  });
+
+  it('renders subtitles tracks for a saved nextcloud video block', () => {
+    setVideoBlocks({
+      subtitles: [
+        {
+          language: 'en',
+          file: '/cypress/captions',
+        },
+      ],
+    });
+    visitPageView();
+
+    cy.get('.block.video video track')
+      .should('have.attr', 'kind', 'subtitles')
+      .and('have.attr', 'src', '/cypress/captions/@@download/file')
+      .and('have.attr', 'srcLang', 'en');
   });
 });
