@@ -64,7 +64,8 @@ describe('Blocks Tests', () => {
     cy.intercept('GET', 'https://cmshare.eea.europa.eu/download').as('cmshare');
 
     // Add Captions File
-    cy.get('#toolbar-save').click();
+    cy.visit('/cypress');
+    cy.waitForResourceToLoad('cypress');
     cy.get('#toolbar-add').click().get('#toolbar-add-file').click();
     cy.get('#field-file')
       .focus()
