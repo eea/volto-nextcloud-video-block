@@ -21,7 +21,8 @@ describe('ControlPanel: Dexterity Content-Types Layout', () => {
     // Wait a bit for draftjs to load, without this the title block
     // custom placeholder is missing and cypress gives a timeout error
     cy.wait(1000);
-    cy.get('input[id="field-placeholder"]').type('Book title');
+    cy.contains('.tabs-wrapper .menu .item', 'Settings').click();
+    cy.get('input[id="field-placeholder"]:visible').first().type('Book title');
     cy.get('label[for="field-required"]').click();
     cy.get('label[for="field-fixed"]').click();
 
@@ -36,11 +37,6 @@ describe('ControlPanel: Dexterity Content-Types Layout', () => {
     cy.get('#toolbar-save').click();
 
     cy.visit('/cypress');
-    // Intercept cmshare request
-    cy.intercept('GET', 'https://cmshare.eea.europa.eu//download').as(
-      'cmshare',
-    );
-
     cy.get('button[class="add"]').click();
     cy.get('#toolbar-add-book').click();
     cy.get('.block.title').contains('Book title');
@@ -52,13 +48,9 @@ describe('ControlPanel: Dexterity Content-Types Layout', () => {
 
     // Add video
     cy.get('.block.video .toolbar-inner .ui.input').type(
-      'https://cmshare.eea.europa.eu/',
+      'https://cmshare.eea.europa.eu/{enter}',
     );
-    cy.get('.block.video .toolbar-inner .ui.buttons .ui.basic.primary').click();
     cy.get('.ui.error.message').should('not.exist');
-
-    // Wait for cmshare request
-    cy.wait('@cmshare');
 
     cy.get('#toolbar-save').click();
     cy.get('.documentFirstHeading').contains('My First Book');
