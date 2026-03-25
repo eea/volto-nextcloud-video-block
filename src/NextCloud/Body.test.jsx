@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-intl-redux';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
 const mockStore = configureStore();
 let history = createMemoryHistory();

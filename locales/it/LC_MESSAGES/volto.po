@@ -182,9 +182,19 @@ msgstr ""
 msgid "Video Autoplay"
 msgstr ""
 
+#. Default: "Video Controls"
+#: NextCloud/schema
+msgid "Video Controls"
+msgstr ""
+
 #. Default: "Video Loop"
 #: NextCloud/schema
 msgid "Video Loop"
+msgstr ""
+
+#. Default: "Video Muted"
+#: NextCloud/schema
+msgid "Video Muted"
 msgstr ""
 
 #. Default: "Video URL"
