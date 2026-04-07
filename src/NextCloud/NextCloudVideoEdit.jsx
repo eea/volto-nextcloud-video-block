@@ -5,19 +5,17 @@
 
 import React, { Component } from 'react';
 import { compose } from 'redux';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl } from 'react-intl';
 import { Button, Input, Message } from 'semantic-ui-react';
 
 import config from '@plone/volto/registry';
-import { Icon, SidebarPortal } from '@plone/volto/components';
-import {
-  withBlockExtensions,
-  isInternalURL,
-  getFieldURL,
-} from '@plone/volto/helpers';
+import Icon from '@plone/volto/components/theme/Icon/Icon';
+import SidebarPortal from '@plone/volto/components/manage/Sidebar/SidebarPortal';
+import { withBlockExtensions } from '@plone/volto/helpers//Extensions';
+import { isInternalURL, getFieldURL } from '@plone/volto/helpers/Url/Url';
 import VideoSidebar from './VideoSidebar';
 import Body from './Body';
 

@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Body from './Body';
-import { withBlockExtensions } from '@plone/volto/helpers';
+import { withBlockExtensions } from '@plone/volto/helpers/Extensions';
 import cx from 'classnames';
 
 /**
