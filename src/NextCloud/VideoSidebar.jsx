@@ -1,7 +1,7 @@
 import React from 'react';
 import { VideoBlockSchema } from './schema';
 import Icon from '@plone/volto/components/theme/Icon/Icon';
-import { BlockDataForm } from '@plone/volto/components/manage/Form';
+import BlockDataForm from '@plone/volto/components/manage/Form/BlockDataForm';
 import { Segment } from 'semantic-ui-react';
 import { defineMessages, useIntl } from 'react-intl';
 import videoSVG from '@plone/volto/icons/videocamera.svg';

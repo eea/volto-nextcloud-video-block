@@ -7,11 +7,8 @@ import { Provider } from 'react-intl-redux';
 import '@testing-library/jest-dom';
 import View from './NextCloudVideoView';
 
-jest.mock('@plone/volto/helpers', () => ({
+jest.mock('@plone/volto/helpers/Extensions', () => ({
   withBlockExtensions: jest.fn((Component) => Component),
-  isInternalURL: jest.fn((url) => true),
-  getFieldURL: jest.fn(),
-  flattenToAppURL: jest.fn((url) => url),
 }));
 const mockStore = configureStore();
 const history = createMemoryHistory();

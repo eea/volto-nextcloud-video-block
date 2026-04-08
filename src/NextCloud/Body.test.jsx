@@ -1,7 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Body from './Body';
-import { isInternalURL, getFieldURL } from '@plone/volto/helpers/Url/Url';
+import {
+  getFieldURL,
+  isInternalURL,
+  flattenToAppURL,
+} from '@plone/volto/helpers/Url/Url';
 import configureStore from 'redux-mock-store';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
@@ -10,11 +14,10 @@ import '@testing-library/jest-dom';
 
 const mockStore = configureStore();
 let history = createMemoryHistory();
-jest.mock('@plone/volto/helpers', () => ({
+jest.mock('@plone/volto/helpers/Url/Url', () => ({
   isInternalURL: jest.fn(),
   flattenToAppURL: jest.fn((url) => url),
   getFieldURL: jest.fn(),
-  withBlockExtensions: jest.fn((Component) => Component),
 }));
 
 jest.mock('./players', () => ({
@@ -24,6 +27,9 @@ jest.mock('./players', () => ({
 describe('Body component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    isInternalURL.mockReturnValue(false);
+    flattenToAppURL.mockImplementation((url) => url);
+    getFieldURL.mockImplementation((url) => url);
   });
 
   it('renders the video component with the appropriate player based on URL', () => {
@@ -71,10 +77,6 @@ describe('Body component', () => {
       align: 'center',
       preview_image: 'https://example.com/preview.jpg',
     };
-    getFieldURL.mockReturnValueOnce('https://example.com/nextCloud/video.mp4');
-    isInternalURL.mockReturnValueOnce(false);
-    isInternalURL.mockReturnValueOnce(true);
-
     render(
       <Provider store={store}>
         <Router history={history}>
@@ -135,10 +137,6 @@ describe('Body component', () => {
       preview_image: 'https://example.com/preview.jpg',
       className: {},
     };
-    getFieldURL.mockReturnValueOnce('https://example.com/nextCloud/video.mp4');
-    isInternalURL.mockReturnValueOnce(false);
-    isInternalURL.mockReturnValueOnce(true);
-
     render(
       <Provider store={store}>
         <Router history={history}>
@@ -195,10 +193,6 @@ describe('Body component', () => {
       preview_image: 'https://example.com/preview.jpg',
       url: undefined, // Explicitly set url to undefined
     };
-
-    // Mock getFieldURL to return undefined when called with undefined
-    getFieldURL.mockReturnValueOnce(undefined);
-    isInternalURL.mockReturnValueOnce(true); // for getImageScaleParams
 
     render(
       <Provider store={store}>

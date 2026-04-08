@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import NextCloudEmbed from './NextCloudEmbed';
 import { isInternalURL, flattenToAppURL } from '@plone/volto/helpers/Url/Url';
 
-jest.mock('@plone/volto/helpers', () => ({
+jest.mock('@plone/volto/helpers/Url/Url', () => ({
   isInternalURL: jest.fn(),
   flattenToAppURL: jest.fn(),
 }));

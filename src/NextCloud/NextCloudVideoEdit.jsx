@@ -13,8 +13,9 @@ import { Button, Input, Message } from 'semantic-ui-react';
 
 import config from '@plone/volto/registry';
 import Icon from '@plone/volto/components/theme/Icon/Icon';
+import Image from '@plone/volto/components/theme/Image/Image';
 import SidebarPortal from '@plone/volto/components/manage/Sidebar/SidebarPortal';
-import { withBlockExtensions } from '@plone/volto/helpers//Extensions';
+import { withBlockExtensions } from '@plone/volto/helpers/Extensions';
 import { isInternalURL, getFieldURL } from '@plone/volto/helpers/Url/Url';
 import VideoSidebar from './VideoSidebar';
 import Body from './Body';
@@ -189,7 +190,7 @@ class Edit extends Component {
           <Body isEditMode={true} {...this.props} />
         ) : (
           <center>
-            <img src={videoBlockSVG} alt="" />
+            <Image src={videoBlockSVG} alt="" />
             <div className="toolbar-inner">
               <Input
                 onKeyDown={this.onKeyDownVariantMenuForm}
