@@ -44,7 +44,7 @@ const messages = defineMessages({
  * @class Edit
  * @extends Component
  */
-class Edit extends Component {
+export class Edit extends Component {
   /**
    * Property types.
    * @property {Object} propTypes Property types.
