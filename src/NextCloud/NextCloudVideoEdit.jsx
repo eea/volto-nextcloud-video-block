@@ -5,19 +5,18 @@
 
 import React, { Component } from 'react';
 import { compose } from 'redux';
-import { isEqual } from 'lodash';
+import isEqual from 'lodash/isEqual';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl } from 'react-intl';
 import { Button, Input, Message } from 'semantic-ui-react';
 
 import config from '@plone/volto/registry';
-import { Icon, SidebarPortal } from '@plone/volto/components';
-import {
-  withBlockExtensions,
-  isInternalURL,
-  getFieldURL,
-} from '@plone/volto/helpers';
+import Icon from '@plone/volto/components/theme/Icon/Icon';
+import Image from '@plone/volto/components/theme/Image/Image';
+import SidebarPortal from '@plone/volto/components/manage/Sidebar/SidebarPortal';
+import { withBlockExtensions } from '@plone/volto/helpers/Extensions';
+import { isInternalURL, getFieldURL } from '@plone/volto/helpers/Url/Url';
 import VideoSidebar from './VideoSidebar';
 import Body from './Body';
 
@@ -45,7 +44,7 @@ const messages = defineMessages({
  * @class Edit
  * @extends Component
  */
-class Edit extends Component {
+export class Edit extends Component {
   /**
    * Property types.
    * @property {Object} propTypes Property types.
@@ -191,7 +190,7 @@ class Edit extends Component {
           <Body isEditMode={true} {...this.props} />
         ) : (
           <center>
-            <img src={videoBlockSVG} alt="" />
+            <Image src={videoBlockSVG} alt="" />
             <div className="toolbar-inner">
               <Input
                 onKeyDown={this.onKeyDownVariantMenuForm}
