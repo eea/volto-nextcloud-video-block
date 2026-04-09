@@ -5,7 +5,8 @@
  */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isInternalURL, flattenToAppURL } from '@plone/volto/helpers';
+import { isInternalURL } from '@plone/volto/helpers/Url/Url';
+import { flattenToAppURL } from '@plone/volto/helpers/Url/Url';
 import config from '@plone/volto/registry';
 /**
  * NextCloudEmbed video block class.

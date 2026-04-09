@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useSelector } from 'react-redux';
-import { getFieldURL } from '@plone/volto/helpers';
+import { getFieldURL } from '@plone/volto/helpers/Url/Url';
 import { getImageScaleParams } from '@eeacms/volto-object-widget/helpers';
 import players from './players';
 
