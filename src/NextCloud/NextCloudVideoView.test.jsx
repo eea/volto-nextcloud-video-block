@@ -29,7 +29,10 @@ describe('View', () => {
         subrequests: {},
       },
     });
-    const data = { align: 'center', preview_image: [{}] };
+    const data = {
+      align: 'center',
+      preview_image: [{ '@id': '/foo/bar', image_field: 'image' }],
+    };
     const { container } = render(
       <Provider store={store}>
         <Router history={history}>
