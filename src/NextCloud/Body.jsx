@@ -22,10 +22,12 @@ const Body = (props) => {
     (state) => state.content.subrequests?.[block]?.data,
   );
 
-  const previewImage = getImageScaleParams(image, 'large');
+  const previewImage =
+    getImageScaleParams(image, 'large') ||
+    getImageScaleParams(data.preview_image, 'large');
 
   const url = getFieldURL(data.url);
-  let placeholder = previewImage?.download ?? data.preview_image;
+  let placeholder = previewImage?.download ?? '';
 
   const ref = React.useRef();
   const onKeyDown = (e) => {
