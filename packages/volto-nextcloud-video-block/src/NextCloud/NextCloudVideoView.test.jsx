@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import React from 'react';
 import { render } from '@testing-library/react';
 import configureStore from 'redux-mock-store';
@@ -7,8 +8,8 @@ import { Provider } from 'react-intl-redux';
 import '@testing-library/jest-dom';
 import View from './NextCloudVideoView';
 
-jest.mock('@plone/volto/helpers/Extensions', () => ({
-  withBlockExtensions: jest.fn((Component) => Component),
+vi.mock('@plone/volto/helpers/Extensions', () => ({
+  withBlockExtensions: vi.fn((Component) => Component),
 }));
 const mockStore = configureStore();
 const history = createMemoryHistory();

@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -8,8 +9,8 @@ const mockIntl = {
   formatMessage: ({ defaultMessage, id }) => defaultMessage || id,
 };
 
-jest.mock('react-intl', () => {
-  const actual = jest.requireActual('react-intl');
+vi.mock('react-intl', async () => {
+  const actual = await vi.importActual('react-intl');
   return {
     ...actual,
     injectIntl: (Component) => (props) => (
@@ -18,7 +19,7 @@ jest.mock('react-intl', () => {
   };
 });
 
-jest.mock('@plone/volto/registry', () => ({
+vi.mock('@plone/volto/registry', () => ({
   __esModule: true,
   default: {
     settings: {
@@ -34,32 +35,37 @@ jest.mock('@plone/volto/registry', () => ({
   },
 }));
 
-jest.mock('@plone/volto/components/theme/Icon/Icon', () => () => (
-  <span data-testid="icon" />
-));
+vi.mock('@plone/volto/components/theme/Icon/Icon', () => ({
+  default: () => <span data-testid="icon" />,
+}));
 
-jest.mock('@plone/volto/components/theme/Image/Image', () => (props) => (
-  <img data-testid="block-image" alt={props.alt} />
-));
+vi.mock('@plone/volto/components/theme/Image/Image', () => ({
+  default: (props) => <img data-testid="block-image" alt={props.alt} />,
+}));
 
-jest.mock(
+vi.mock(
   '@plone/volto/components/manage/Sidebar/SidebarPortal',
-  () =>
-    ({ children, selected }) =>
+  () => ({
+    default: ({ children, selected }) =>
       selected ? <div data-testid="sidebar-portal">{children}</div> : null,
+  }),
 );
 
-jest.mock('@plone/volto/helpers/Extensions', () => ({
+vi.mock('@plone/volto/helpers/Extensions', () => ({
   withBlockExtensions: (Component) => Component,
 }));
 
-jest.mock('@plone/volto/helpers/Url/Url', () => ({
-  isInternalURL: jest.fn(),
-  getFieldURL: jest.fn(),
+vi.mock('@plone/volto/helpers/Url/Url', () => ({
+  isInternalURL: vi.fn(),
+  getFieldURL: vi.fn(),
 }));
 
-jest.mock('./Body', () => () => <div data-testid="video-body" />);
-jest.mock('./VideoSidebar', () => () => <div data-testid="video-sidebar" />);
+vi.mock('./Body', () => ({
+  default: () => <div data-testid="video-body" />,
+}));
+vi.mock('./VideoSidebar', () => ({
+  default: () => <div data-testid="video-sidebar" />,
+}));
 
 const makeProps = (overrides = {}) => ({
   selected: true,
@@ -67,18 +73,18 @@ const makeProps = (overrides = {}) => ({
   id: 'block-1',
   index: 0,
   data: {},
-  onChangeBlock: jest.fn(),
-  onSelectBlock: jest.fn(),
-  onDeleteBlock: jest.fn(),
-  onFocusPreviousBlock: jest.fn(),
-  onFocusNextBlock: jest.fn(),
-  handleKeyDown: jest.fn(),
+  onChangeBlock: vi.fn(),
+  onSelectBlock: vi.fn(),
+  onDeleteBlock: vi.fn(),
+  onFocusPreviousBlock: vi.fn(),
+  onFocusNextBlock: vi.fn(),
+  handleKeyDown: vi.fn(),
   ...overrides,
 });
 
 describe('NextCloudVideoEdit', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     isInternalURL.mockReturnValue(false);
     getFieldURL.mockImplementation((value) => value);
   });
@@ -97,8 +103,8 @@ describe('NextCloudVideoEdit', () => {
     });
     fireEvent.keyDown(input, {
       key: 'Enter',
-      preventDefault: jest.fn(),
-      stopPropagation: jest.fn(),
+      preventDefault: vi.fn(),
+      stopPropagation: vi.fn(),
     });
 
     expect(props.onChangeBlock).toHaveBeenCalledWith('block-1', {
@@ -110,8 +116,8 @@ describe('NextCloudVideoEdit', () => {
     });
     fireEvent.keyDown(input, {
       key: 'Escape',
-      preventDefault: jest.fn(),
-      stopPropagation: jest.fn(),
+      preventDefault: vi.fn(),
+      stopPropagation: vi.fn(),
     });
 
     expect(input).toHaveValue('');

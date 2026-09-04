@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -15,30 +16,30 @@ const mockSchema = {
   properties: {},
 };
 
-jest.mock('react-intl', () => {
-  const actual = jest.requireActual('react-intl');
+vi.mock('react-intl', async () => {
+  const actual = await vi.importActual('react-intl');
   return {
     ...actual,
     useIntl: () => mockIntl,
   };
 });
 
-jest.mock('./schema', () => ({
-  VideoBlockSchema: jest.fn(() => mockSchema),
+vi.mock('./schema', () => ({
+  VideoBlockSchema: vi.fn(() => mockSchema),
 }));
 
-jest.mock('@plone/volto/helpers/Url/Url', () => ({
-  getFieldURL: jest.fn(),
+vi.mock('@plone/volto/helpers/Url/Url', () => ({
+  getFieldURL: vi.fn(),
 }));
 
-jest.mock('@plone/volto/components/theme/Icon/Icon', () => () => (
-  <span data-testid="icon" />
-));
+vi.mock('@plone/volto/components/theme/Icon/Icon', () => ({
+  default: () => <span data-testid="icon" />,
+}));
 
-jest.mock(
+vi.mock(
   '@plone/volto/components/manage/Form/BlockDataForm',
-  () =>
-    ({ onChangeField, title }) => (
+  () => ({
+    default: ({ onChangeField, title }) => (
       <div data-testid="block-data-form">
         <div>{title}</div>
         <button type="button" onClick={() => onChangeField('url', '')}>
@@ -52,20 +53,21 @@ jest.mock(
         </button>
       </div>
     ),
+  }),
 );
 
 const makeProps = (overrides = {}) => ({
   data: {},
   block: 'block-1',
   intl: mockIntl,
-  onChangeBlock: jest.fn(),
-  resetSubmitUrl: jest.fn(),
+  onChangeBlock: vi.fn(),
+  resetSubmitUrl: vi.fn(),
   ...overrides,
 });
 
 describe('VideoSidebar', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('shows a placeholder message when there is no selected video URL', () => {

@@ -1,15 +1,22 @@
+import { vi } from 'vitest';
 import applyConfig from './index';
 import LayoutSchema from './NextCloud/LayoutSchema';
 import NextCloudVideoEdit from './NextCloud/NextCloudVideoEdit';
 import NextCloudVideoView from './NextCloud/NextCloudVideoView';
 import videoSVG from '@plone/volto/icons/videocamera.svg';
 
-jest.mock('./NextCloud/NextCloudVideoEdit', () => 'NextCloudVideoEdit');
-jest.mock('./NextCloud/NextCloudVideoView', () => 'NextCloudVideoView');
-jest.mock('./NextCloud/LayoutSchema', () =>
-  jest.fn(() => ({ title: 'Layout' })),
-);
-jest.mock('@plone/volto/icons/videocamera.svg', () => 'video-svg');
+vi.mock('./NextCloud/NextCloudVideoEdit', () => ({
+  default: 'NextCloudVideoEdit',
+}));
+vi.mock('./NextCloud/NextCloudVideoView', () => ({
+  default: 'NextCloudVideoView',
+}));
+vi.mock('./NextCloud/LayoutSchema', () => ({
+  default: vi.fn(() => ({ title: 'Layout' })),
+}));
+vi.mock('@plone/volto/icons/videocamera.svg', () => ({
+  default: 'video-svg',
+}));
 
 describe('applyConfig', () => {
   it('registers the nextcloud video block configuration', () => {
