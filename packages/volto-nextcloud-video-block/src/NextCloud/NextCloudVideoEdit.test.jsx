@@ -43,13 +43,10 @@ vi.mock('@plone/volto/components/theme/Image/Image', () => ({
   default: (props) => <img data-testid="block-image" alt={props.alt} />,
 }));
 
-vi.mock(
-  '@plone/volto/components/manage/Sidebar/SidebarPortal',
-  () => ({
-    default: ({ children, selected }) =>
-      selected ? <div data-testid="sidebar-portal">{children}</div> : null,
-  }),
-);
+vi.mock('@plone/volto/components/manage/Sidebar/SidebarPortal', () => ({
+  default: ({ children, selected }) =>
+    selected ? <div data-testid="sidebar-portal">{children}</div> : null,
+}));
 
 vi.mock('@plone/volto/helpers/Extensions', () => ({
   withBlockExtensions: (Component) => Component,

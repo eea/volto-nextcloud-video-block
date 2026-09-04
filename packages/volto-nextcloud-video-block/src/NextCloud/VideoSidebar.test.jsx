@@ -36,25 +36,22 @@ vi.mock('@plone/volto/components/theme/Icon/Icon', () => ({
   default: () => <span data-testid="icon" />,
 }));
 
-vi.mock(
-  '@plone/volto/components/manage/Form/BlockDataForm',
-  () => ({
-    default: ({ onChangeField, title }) => (
-      <div data-testid="block-data-form">
-        <div>{title}</div>
-        <button type="button" onClick={() => onChangeField('url', '')}>
-          clear url
-        </button>
-        <button
-          type="button"
-          onClick={() => onChangeField('title', 'Updated title')}
-        >
-          change title
-        </button>
-      </div>
-    ),
-  }),
-);
+vi.mock('@plone/volto/components/manage/Form/BlockDataForm', () => ({
+  default: ({ onChangeField, title }) => (
+    <div data-testid="block-data-form">
+      <div>{title}</div>
+      <button type="button" onClick={() => onChangeField('url', '')}>
+        clear url
+      </button>
+      <button
+        type="button"
+        onClick={() => onChangeField('title', 'Updated title')}
+      >
+        change title
+      </button>
+    </div>
+  ),
+}));
 
 const makeProps = (overrides = {}) => ({
   data: {},
