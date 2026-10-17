@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Body from './Body';
@@ -14,19 +15,22 @@ import '@testing-library/jest-dom';
 
 const mockStore = configureStore();
 let history = createMemoryHistory();
-jest.mock('@plone/volto/helpers/Url/Url', () => ({
-  isInternalURL: jest.fn(),
-  flattenToAppURL: jest.fn((url) => url),
-  getFieldURL: jest.fn(),
+vi.mock('@plone/volto/helpers/Url/Url', () => ({
+  isInternalURL: vi.fn(),
+  flattenToAppURL: vi.fn((url) => url),
+  getFieldURL: vi.fn(),
 }));
 
-jest.mock('./players', () => ({
-  nextCloud: jest.fn(() => <div>NextCloud Player</div>),
+vi.mock('./players', () => ({
+  default: {
+    nextCloud: vi.fn(() => <div>NextCloud Player</div>),
+  },
+  nextCloud: vi.fn(() => <div>NextCloud Player</div>),
 }));
 
 describe('Body component', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     isInternalURL.mockReturnValue(false);
     flattenToAppURL.mockImplementation((url) => url);
     getFieldURL.mockImplementation((url) => url);
