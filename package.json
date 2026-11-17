@@ -1,6 +1,7 @@
 {
   "name": "@eeacms/volto-nextcloud-video-block-dev",
-  "version": "1.0.0-alpha.0",
+  "private": true,
+  "version": "4.0.0",
   "description": "@eeacms/volto-nextcloud-video-block: Volto add-on to embed Videos from NextCloud",
   "author": "European Environment Agency: IDM2 A-Team",
   "homepage": "https://github.com/eea/volto-nextcloud-video-block",
