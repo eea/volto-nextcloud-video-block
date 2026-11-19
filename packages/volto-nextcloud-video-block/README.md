@@ -30,6 +30,26 @@ const applyConfig = (config) => {
 
 ```
 
+## Upgrade
+
+### Upgrading to 4.x
+
+> This version requires `Volto 18` or `Volto 19` and Node.js 22.
+
+The block keeps the same id, the same schema fields and the same URL handling, so video blocks
+stored with 3.x keep playing unchanged. The release adds Volto 19 support and moves the repository
+to the Volto 19 layout, where the published package lives in
+`packages/volto-nextcloud-video-block`.
+
+#### Breaking changes
+
+- **Node.js 22 or newer is required** (`engines.node >= 22`), 3.x declared no engine.
+- **React 18 is required.** The package declares `react` and `react-dom` as `^18.2.0` peers, 3.x
+  declared no peers.
+- **The package no longer ships the repository tooling.** The Cypress specs and the Jest setup are
+  gone and the unit tests moved to Vitest next to the add-on, so nothing a site imports was
+  removed.
+
 ## Requirements
 
 ### Backend
