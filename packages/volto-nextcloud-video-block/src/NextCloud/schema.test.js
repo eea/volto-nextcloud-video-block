@@ -1,7 +1,8 @@
+import { vi } from 'vitest';
 import { VideoBlockSchema } from './schema';
 import config from '@plone/volto/registry';
 
-jest.mock('@plone/volto/registry', () => ({
+vi.mock('@plone/volto/registry', () => ({
   __esModule: true,
   default: {
     blocks: {
